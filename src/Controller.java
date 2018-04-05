@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 public class Controller implements ActionListener
 {
 	
-	testFrame001 view;
+	GameFrame view;
 	
 	
 	Controller() { 
@@ -12,16 +12,12 @@ public class Controller implements ActionListener
 		 } 
 	
 	public void actionPerformed(ActionEvent e){
-		if(e.getActionCommand().equals("No")) {
-			System.out.println(e.getActionCommand());
-		}else {
-			view.textArea.append("Hello");
-		}
 		
+			System.out.println(e.getActionCommand());
 		
 	}
 	
-	public void addView(testFrame001 v){
+	public void addView(GameFrame v){
 		  System.out.println("Controller: adding view");
 		  this.view = v;
 		 }

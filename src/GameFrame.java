@@ -4,9 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -14,6 +17,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -24,53 +29,67 @@ import java.awt.Dimension;
 public class GameFrame extends JFrame
 {
 	
-	private JPanel contentPane;
+	
 	private JTextField txtFieldMapTitle;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JPanel contentPane;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					GameFrame frame = new GameFrame();
-					frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	//================== CONTAINERS =====================|
 	
-	/**
-	 * Create the frame.
-	 */
+	JPanel mapContainer = new JPanel();
+	JPanel commandContainer = new JPanel();
+
+	//================== LABELS ========================|
+	JLabel mapBox = new JLabel("");
+	
+	
+	//================== BUTTONS ========================|
+	JButton btnSaveGame = new JButton("Save Game");
+	JButton btnLoadGame = new JButton("Load Game");
+	
+	
+	
 	public GameFrame()
 	{
-		setTitle("Game");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1343, 833);
+		Frame frame = new Frame();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel mapContainer = new JPanel();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		mapContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		mapContainer.setBounds(827, 60, 500, 500);
 		contentPane.add(mapContainer);
 		mapContainer.setLayout(null);
 		
-		JLabel mapBox = new JLabel("");
+		//============================================================================================== mapBox
 		mapBox.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		mapBox.setIcon(new ImageIcon("C:\\Users\\Natanael Nistor\\Desktop\\GameMap001 500500.png"));
 		mapBox.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,13 +106,13 @@ public class GameFrame extends JFrame
 		contentPane.add(txtFieldMapTitle);
 		txtFieldMapTitle.setColumns(10);
 		
-		JPanel commandContainer = new JPanel();
+		
 		commandContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		commandContainer.setBounds(1183, 571, 144, 222);
 		contentPane.add(commandContainer);
 		commandContainer.setLayout(null);
 		
-		JButton btnSaveGame = new JButton("Save Game");
+		
 		btnSaveGame.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnSaveGame.setBounds(10, 11, 126, 40);
 		commandContainer.add(btnSaveGame);
@@ -485,5 +504,28 @@ public class GameFrame extends JFrame
 		btnExamineMonster.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnExamineMonster.setBounds(48, 11, 200, 37);
 		actionContainer.add(btnExamineMonster);
+		
+		frame.addWindowListener(new CloseListener()); 
+		frame.setSize(1344,835);
+		frame.setLocation(100,100);
+		frame.add(contentPane);
+		frame.setTitle("Game");
+		frame.setResizable(false);
+		
+		frame.setVisible(true);	
 	}
+
+	public void addController(Controller myController)
+	{
+		
+		
+	}
+	
+	public static class CloseListener extends WindowAdapter {
+		  public void windowClosing(WindowEvent e) {
+		   e.getWindow().setVisible(false);
+		   System.exit(0);
+		  } 
+		 } 
+	
 }

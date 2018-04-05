@@ -4,7 +4,7 @@ public class RunMVC {
 	public RunMVC() {
 		
 		
-		testFrame001 myView  = new testFrame001();;
+		GameFrame myView  = new GameFrame();;
 		
 		
 		Controller myController = new Controller();
