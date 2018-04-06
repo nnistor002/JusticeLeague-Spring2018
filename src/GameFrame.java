@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,11 +18,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import java.awt.GridLayout;
-import javax.swing.JToggleButton;
 import java.awt.Dimension;
 
 public class GameFrame extends JFrame
@@ -120,7 +117,7 @@ public class GameFrame extends JFrame
 		consoleContainer.add(scrollPane);
 		
 		
-		txtGuiConsolePrintout.setText("GUI CONSOLE PRINTOUT\r\n-\r\n-\r\n-\r\n-\r\n---------------\r\n-----------------------\r\n--------------------------------------\r\n-----------------------\r\n---------------\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-\r\n-");
+		txtGuiConsolePrintout.setText("");
 		txtGuiConsolePrintout.setLineWrap(true);
 		txtGuiConsolePrintout.setWrapStyleWord(true);
 		scrollPane.setViewportView(txtGuiConsolePrintout);
