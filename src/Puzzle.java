@@ -8,7 +8,7 @@ public class Puzzle {
 	public static void main (String [] args) throws Exception {
 		
 		//change the file directory
-		String filename = "/Users/hye/Desktop/JusticeLeague-Spring2018-Section1/src/Puzzle.txt";
+		String filename = "Text/Puzzle.txt";
 		String strLine = null;
 		
 		try {
