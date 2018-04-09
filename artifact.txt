@@ -1,0 +1,43 @@
+E2--AC01--Drop--Earth Power Crystal Ball--Power--Damages the monster by 50% of its health.--Damage--50%--50%
+W5--AC02--Room--Water Power Crystal Ball--Power--Damages the monster by 50% of its health.--Damage--50%--50%
+F3--AC03--Drop--Fire Power Crystal Ball--Power--Damages the monster by 50% of its health.--Damage--50%--50%
+M7--AC04--Room--Metal Power Crystal Ball--Power--Damages the monster by 50% of its health.--Damage--50%--50%
+D3--AC05--Room--Wood Power Crystal Ball--Power--Damages the monster by 50% of its health.--Damage--50%--50%
+E2--AW01--Room--Water Jar--Consume--Heals the player by 15.--Heal--15--15
+E0--AW02--Room--Wine Jar--Consume--Heals the player by 30 reduces the players maximum hit by 3 for two attacks.--Heal--30--30
+E0--AW02--Room--Wine Jar--Consume--Heals the player by 30 reduces the players maximum hit by 3 for two attacks.--Heal--30--30
+M1--AW02--Room--Wine Jar--Consume--Heals the player by 30 reduces the players maximum hit by 3 for two attacks.--Heal--30--30
+M1--AW02--Room--Wine Jar--Consume--Heals the player by 30 reduces the players maximum hit by 3 for two attacks.--Heal--30--30
+M5--AW02--Room--Wine Jar--Consume--Heals the player by 30 reduces the players maximum hit by 3 for two attacks.--Heal--30--30
+F0--AW03--Room--Health Potion--Consume--Heals the player passively by 20 for 3 turns.--Heal--20--20
+F0--AW03--Room--Health Potion--Consume--Heals the player passively by 20 for 3 turns.--Heal--20--20
+F0--AW03--Room--Health Potion--Consume--Heals the player passively by 20 for 3 turns.--Heal--20--20
+E4--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
+W1--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
+F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
+F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
+F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
+E5--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
+D6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
+M6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
+W7--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
+M7--AMG01--Drop--Metal Gem--Gem--Used to unlock final boss.--_--_--_
+D2--AWG02--Room--Wood Gem--Gem--Used to unlock final boss.--_--_--_
+E0--AEG01--Room--Earth Gem--Gem--Used to unlock final boss.--_--_--_
+W3--AWG01--Room--Water Gem--Gem--Used to unlock final boss.--_--_--_
+F8--AFG01--Drop--Fire Gem--Gem--Used to unlock final boss.--_--_--_
+E4--AEK01--Room--Earth Exit Key--Key--Exit key for the Earth Level--_--_--_
+W7--AWK02--Drop--Water Exit Key--Key--Exit key for the Water Level--_--_--_
+F8--AFK03--Room--Fire Exit Key--Key--Exit key for the Fire Level--_--_--_
+M4--AMK04--Drop--Metal Exit Key--Key--Exit Key for the Metal Level--_--_--_
+D5--AWK05--Room--Wood Exit Key--Key--Exit key for the Wood Level--_--_--_
+E1--WK01--Room--Knife--Weapon--Can be used to fight monsters.--Damage--5--0
+M1--WD01--Room--Dagger--Weapon--Can be used to fight monsters.--Damage--7--0
+M4--WK02--Room--Tigger-Claws Knife--Weapon--Can be used to fight monsters.--Damage--10--0
+W1--WS03--Room--Rune Blade Sword--Weapon--Can be used to fight monsters.--Damage--40--0
+W4--WS06 --Room--Titan Sword--Weapon--Can be used to fight monsters.--Damage--25--0
+D1--WS07--Room--Viking Sword--Weapon--Can be used to fight monsters.--Damage--25--0
+D4--WK02--Room--Falcon Katana--Weapon--Can be used to fight monsters.--Damage--20--10
+F7--WK03--Room--Straight Katana--Weapon--Can be used to fight monsters.--Damage--35--5
+F6--WH01--Room--Hammer--Weapon--Can be used to fight monsters.--Damage--25--0
+C0--Key--Drop--Master Key--Key--Allow player to exit castle and finish the game.--_--_--_
