@@ -8,8 +8,8 @@ public class Puzzle {
 	public static void main (String [] args) throws Exception {
 		
 		//change the file directory
-		String filename = "/Users/hye/Desktop/JusticeLeague-Spring2018-Section1/src/Puzzle.txt";
-		String strLine = null;
+		String filename = "/Users/tman2/Desktop/JusticeLeague-Spring2018-Section1/src/Puzzle.txt";
+		String strLine;
 		
 		try {
 			BufferedReader rd = new BufferedReader(new FileReader(filename));
