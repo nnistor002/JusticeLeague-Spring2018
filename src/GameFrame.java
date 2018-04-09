@@ -4,8 +4,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 import java.awt.Font;
 import java.awt.Frame;
 
@@ -23,14 +28,14 @@ import javax.swing.JProgressBar;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
-public class GameFrame extends JFrame
+public class GameFrame extends JFrame implements Observable
 {
 	
 	
-	private JTextField txtFieldMapTitle;
-	private JTextField textFieldDamage;
-	private JTextField textField_1;
-	private JPanel contentPane;
+	JTextField txtFieldMapTitle;
+	JTextField textFieldDamage;
+	JTextField textField_1;
+	JPanel contentPane;
 	
 	//================== CONTAINERS ===================|
 	
@@ -38,6 +43,7 @@ public class GameFrame extends JFrame
 	JPanel commandContainer = new JPanel();
 	JPanel navContainer = new JPanel();
 	JPanel roomPanel = new JPanel();
+	JPanel towerPanel = new JPanel();
 	JPanel puzzleContainer = new JPanel();
 	JPanel inventory = new JPanel();
 	JPanel consoleContainer = new JPanel();
@@ -49,12 +55,14 @@ public class GameFrame extends JFrame
 	JLabel mapBox = new JLabel("");
 	JLabel lblPlayerHp = new JLabel("Player Health");
 	JLabel lblDamage = new JLabel("Damage");
+	
 
 	
 	//================== TEXT AREA =====================|
 	
 	JTextArea textAreaItemDetails = new JTextArea();
 	JTextArea txtGuiConsolePrintout = new JTextArea();
+	JTextPane txtGuiConsole = new JTextPane();
 	
 	//================== BUTTONS ======================|
 	JButton btnSaveGame = new JButton("Save Game");
@@ -67,7 +75,7 @@ public class GameFrame extends JFrame
 	JButton btnSouth = new JButton("");
 	JButton btnFloorUp = new JButton("");
 	JButton btnFloorDown = new JButton("");
-	JButton btnEnterRoom = new JButton("Enter");
+	JButton btnEnter = new JButton("Enter");
 	JButton btnExamineRoom = new JButton("Examine");
 	JButton btnSearchRoom = new JButton("Search");
 	JButton btnExitRoom = new JButton("Exit Room");
@@ -84,11 +92,16 @@ public class GameFrame extends JFrame
 	JButton btnQuitPuzzle = new JButton("Quit Puzzle");
 	JButton btnExamineMonster = new JButton("Examine \r\nMonster");
 	
+	JButton btnEarth = new JButton("Earth Tower");
+	JButton btnFire = new JButton("Fire Tower");
+	JButton btnWood = new JButton("Wood Tower");
+	JButton btnMetal = new JButton("Metal Tower");
+	JButton btnWater = new JButton("Water Tower");
+	
 	//=======================================================
 	JScrollPane scrollPane = new JScrollPane();
 
 	JProgressBar progressBarHealth = new JProgressBar();
-
 	
 	
 	
@@ -116,12 +129,10 @@ public class GameFrame extends JFrame
 		scrollPane.setBounds(10, 11, 787, 428);
 		consoleContainer.add(scrollPane);
 		
-		
 		txtGuiConsolePrintout.setText("");
 		txtGuiConsolePrintout.setLineWrap(true);
 		txtGuiConsolePrintout.setWrapStyleWord(true);
 		scrollPane.setViewportView(txtGuiConsolePrintout);
-		
 		
 		/*
 		 * ===================================================================================================|
@@ -223,24 +234,28 @@ public class GameFrame extends JFrame
 		btnNorth.setIcon(new ImageIcon("Icons/arrow_up.png"));
 		btnNorth.setBounds(59, 15, 50, 50);
 		btnNorth.setActionCommand("NorthButton");
+		btnNorth.setVisible(false);
 		navContainer.add(btnNorth);
 		
 		
 		btnWest.setIcon(new ImageIcon("Icons/arrow_left.png"));
 		btnWest.setBounds(10, 65, 50, 50);
 		btnWest.setActionCommand("WestButton");
+		btnWest.setVisible(false);
 		navContainer.add(btnWest);
 		
 		
 		btnEast.setIcon(new ImageIcon("Icons/arrow_right.png"));
 		btnEast.setBounds(108, 65, 50, 50);
 		btnEast.setActionCommand("EastButton");
+		btnEast.setVisible(false);
 		navContainer.add(btnEast);
 		
 		
 		btnSouth.setIcon(new ImageIcon("Icons/arrow_down.png"));
 		btnSouth.setBounds(59, 115, 50, 50);
 		btnSouth.setActionCommand("SouthButton");
+		btnSouth.setVisible(false);
 		navContainer.add(btnSouth);
 		
 		
@@ -248,37 +263,67 @@ public class GameFrame extends JFrame
 		btnFloorUp.setIcon(new ImageIcon("Icons/Stairs_up.png"));
 		btnFloorUp.setBounds(217, 15, 75, 75);
 		btnFloorUp.setActionCommand("FloorUpButton");
+		btnFloorUp.setVisible(false);
 		navContainer.add(btnFloorUp);
 		
 		
 		btnFloorDown.setIcon(new ImageIcon("Icons/Stairs_down.png"));
 		btnFloorDown.setBounds(217, 90, 75, 75);
 		btnFloorDown.setActionCommand("FloorDownButton");
+		btnFloorDown.setVisible(false);
 		navContainer.add(btnFloorDown);
 		
+		towerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		towerPanel.setBounds(5, 35, 340, 70);
+		navContainer.add(towerPanel);
+		
+		
+		
+		btnWater.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnWater.setActionCommand("WaterButton");
+		towerPanel.add(btnWater);
+		
+		btnFire.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnFire.setActionCommand("FireButton");
+		towerPanel.add(btnFire);
+		
+		btnWood.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnWood.setActionCommand("WoodButton");
+		towerPanel.add(btnWood);
+		
+		btnMetal.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnMetal.setActionCommand("MetalButton");
+		towerPanel.add(btnMetal);
+		
+		btnEarth.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEarth.setActionCommand("EarthButton");
+		towerPanel.add(btnEarth);
 		
 		roomPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		roomPanel.setBounds(5, 170, 340, 41);
 		navContainer.add(roomPanel);
 		
 
-		btnEnterRoom.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnEnterRoom.setActionCommand("EnterRoomButton");
-		roomPanel.add(btnEnterRoom);
+		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEnter.setActionCommand("EnterButton");
+		roomPanel.add(btnEnter);
 		
 		
 		btnExamineRoom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnExamineRoom.setActionCommand("ExamineRoomButton");
+		btnExamineRoom.setVisible(false);
 		roomPanel.add(btnExamineRoom);
 		
 		
 		btnSearchRoom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSearchRoom.setActionCommand("SearchButton");
+		btnSearchRoom.setVisible(false);
 		roomPanel.add(btnSearchRoom);
 		
 		
 		btnExitRoom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnExitRoom.setActionCommand("ExitRoomButton");
+		btnExitRoom.setVisible(false);
 		roomPanel.add(btnExitRoom);
 		
 		actionContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -386,7 +431,7 @@ public class GameFrame extends JFrame
 		mapContainer.setBounds(827, 60, 500, 500);
 		mapContainer.setLayout(null);
 		mapBox.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		mapBox.setIcon(new ImageIcon("C:\\Users\\Natanael Nistor\\Desktop\\GameMap001 500500.png"));
+		mapBox.setIcon(new ImageIcon("Maps/000.png"));
 		mapBox.setHorizontalAlignment(SwingConstants.CENTER);
 		mapBox.setBounds(0, 0, 500, 500);
 		mapContainer.add(mapBox);
@@ -439,7 +484,7 @@ public class GameFrame extends JFrame
 		btnSouth.addActionListener(controller);
 		btnFloorUp.addActionListener(controller);
 		btnFloorDown.addActionListener(controller);
-		btnEnterRoom.addActionListener(controller);
+		btnEnter.addActionListener(controller);
 		btnExamineRoom.addActionListener(controller);
 		btnSearchRoom.addActionListener(controller);
 		btnExitRoom.addActionListener(controller);
@@ -455,6 +500,11 @@ public class GameFrame extends JFrame
 		btnSolvePuzzle.addActionListener(controller);
 		btnQuitPuzzle.addActionListener(controller);
 		btnExamineMonster.addActionListener(controller);
+		btnFire.addActionListener(controller);
+		btnWater.addActionListener(controller);
+		btnEarth.addActionListener(controller);
+		btnMetal.addActionListener(controller);
+		btnWood.addActionListener(controller);
 	}
 	
 	public static class CloseListener extends WindowAdapter {
@@ -462,6 +512,21 @@ public class GameFrame extends JFrame
 			e.getWindow().setVisible(false);
 			System.exit(0);
 		} 
-	} 
-	
+	}
+
+	@Override
+	public void addListener(InvalidationListener arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeListener(InvalidationListener arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
