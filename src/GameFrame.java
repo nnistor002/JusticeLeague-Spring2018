@@ -163,6 +163,7 @@ public class GameFrame extends JFrame
 		txtGuiConsolePrintout.setLineWrap(true);
 		txtGuiConsolePrintout.setWrapStyleWord(true);
 		txtGuiConsolePrintout.setEditable(false);
+		txtGuiConsolePrintout.setCaretPosition(txtGuiConsolePrintout.getDocument().getLength());
 		scrollPane.setViewportView(txtGuiConsolePrintout);
 		
 		/*
