@@ -10,16 +10,23 @@ public class Inventory extends Artifacts
 	public Map<String,String> itemDetail = new HashMap<String,String>();
 	public Map<String,String[]> itemCanUse = new HashMap<String,String[]>();
 	DefaultListModel listPickedup = new DefaultListModel(); 
-	
+
 	public double Heal;
-	
+
+	//======================================================
+	String[] startData = {"Heal", "20", "20"}; //================== Temp FIX NEEDS EDIT HERE
+	//======================================================
+
 	Artifacts a;
-	
+
 	public Inventory() {
 		System.out.println("-------------------------------------");
+		//=====================================================
+		itemCanUse.put("Health Potion", startData); //================== Temp FIX NEEDS EDIT HERE
+		//=====================================================
 	}
-	
-	
+
+
 	public  DefaultListModel pickUp(List<String[]> z) {
 		listPickedup.clear();
 		for(int i= 0; i < z.size();i++) {
@@ -39,31 +46,31 @@ public class Inventory extends Artifacts
 			}
 			listPickedup.addElement(x[3]);
 		}
-		
-		
-//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-//		for (String key : itemDetail.keySet()) {
-//			System.out.println(key + " " + itemDetail.get(key));
-//		}
-		
+
+
+		//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		//		for (String key : itemDetail.keySet()) {
+		//			System.out.println(key + " " + itemDetail.get(key));
+		//		}
+
 		return listPickedup;
-		
+
 	}
-	
+
 	public void use(String s) {
-			if(itemCanUse.containsKey(s)) {
-				String[] arrayHold = itemCanUse.get(s);
-				if(arrayHold[0].equals("Heal")) {
-					this.Heal = (Integer.parseInt(arrayHold[1].replace("%", ""))/1.5);
-				}
-			}else {
-				//System.out.println("false");  <------------- DAMAGE GOES HERE!!!
+		if(itemCanUse.containsKey(s)) {
+			String[] arrayHold = itemCanUse.get(s);
+			if(arrayHold[0].equals("Heal")) {
+				this.Heal = (Integer.parseInt(arrayHold[1].replace("%", ""))/1.5);
 			}
+		}else {
+			//System.out.println("false");  <------------- DAMAGE GOES HERE!!!
+		}
 	}
-	
+
 	public String getDetails(String str) {
 		String d = itemDetail.get(str);	
 		return d;
 	}
-	
+
 }

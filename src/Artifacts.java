@@ -11,22 +11,29 @@ public class Artifacts
 {
 	private FileReader fR;
 	private  Scanner sR;
-	
+
 	Weapons w;
-	
+
 	public Map<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
 	public Map<String,String> itemEquipedable = new HashMap<String,String>();
 	public List<String[]> itemsInRoom = new ArrayList<String[]>();
+
+
 	public Artifacts() {
 		fetchArtifacts();
-		
-//		for (String key : itemMap.keySet()) {
-//			System.out.println(key + " " + itemMap.get(key));
-//		}
+
+		//===================================================
+		itemEquipedable.put("Knife", null);  //======================= EDIT TO ADD VALUE... NOT FINISHED HERE
+		//===================================================
+
+
+		//		for (String key : itemMap.keySet()) {
+		//			System.out.println(key + " " + itemMap.get(key));
+		//		}
 	}
-	
+
 	public void fetchArtifacts() {
-		
+
 		try{		
 			fR = new FileReader("artifact.txt");
 			sR = new Scanner(fR);
@@ -58,25 +65,25 @@ public class Artifacts
 			e.printStackTrace();
 		}	
 	}	
-	
-	
+
+
 	public void getItems(String s) {
 		//System.out.println(s);
 		itemsInRoom.clear();
-			if(itemMap.containsKey(s)) {
-		for(int i = 0; i < itemMap.get(s).size();i++) {
-			String item = (itemMap.get(s).get(i));
-			String[] z = item.split(",");
-			itemsInRoom.add(z);
-			
-			for(int j = 0; j < z.length;j++) {
-				String x =  z[j];
-				String[] check = x.split("--");
+		if(itemMap.containsKey(s)) {
+			for(int i = 0; i < itemMap.get(s).size();i++) {
+				String item = (itemMap.get(s).get(i));
+				String[] z = item.split(",");
+				itemsInRoom.add(z);
+
+				for(int j = 0; j < z.length;j++) {
+					String x =  z[j];
+					String[] check = x.split("--");
 					if(check[4].equals("Weapon")) {
-					itemEquipedable.put(check[3], x);
+						itemEquipedable.put(check[3], x);
+					}
 				}
-			}
-		
+
 			}
 		}
 	}
