@@ -252,6 +252,8 @@ public class GameFrame extends JFrame
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer) inventoryBox.getCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
 		scrollitem.setViewportView(inventoryBox);
+	
+		
 		playerContainer.add(scrollitem);
 
 		textAreaItemDetails.setEditable(false);
