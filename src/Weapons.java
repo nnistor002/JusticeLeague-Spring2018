@@ -18,6 +18,7 @@ public class Weapons extends Artifacts
 	}
 	
 	public DefaultListModel equipIt(String str) {
+		equiped.clear();
 		if(equiped.isEmpty()) {
 			equiped.addElement(str);
 		}
