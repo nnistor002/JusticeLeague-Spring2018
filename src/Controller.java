@@ -40,7 +40,7 @@ public class Controller implements ActionListener
 			
 			break;
 			case("EquipButton" ):
-				if(a.itemEquipedable.containsKey(view.itemNAME)) {
+				if(a.itemEquipedable.containsKey(view.itemNAME) && view.equitList.isEmpty()) {
 					w.equipIt(view.itemNAME);
 					view.equipItem(w.equiped);
 				}else {
