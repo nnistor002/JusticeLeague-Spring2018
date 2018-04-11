@@ -20,11 +20,12 @@ public class Room extends Observable
 	public List<String[]> currentRoom = new ArrayList<String[]>();
 	public String[] navRoomArray = new String[6];
 	public Boolean[] navBooleanArray = new Boolean[6];
+	public ArrayList roomLooted = new ArrayList();
 	
 	public String roomHelp = "\n ---------- You have entered a Tower you can: ----------"
 			+ "				\n -----Examine the rooms to look for ways around. "
 			+ "				\n -----Search the rooms for items and pick them up."
-			+"                 \n -----The arrow buttons will appear only if there is another room related to the button after you have examined the room"
+			+"                 \n -----Click arrow buttons that will appear only if there is another room related to the button after you have examined the room"
 			+"                 \n ----- You cannot leave the tower without the tower's exit Key.";
 	public String roomDescription;
 	public String roomID;
@@ -83,7 +84,7 @@ public class Room extends Observable
 			}
 		}	
 		
-		System.out.println(Arrays.toString(here));
+		//System.out.println(Arrays.toString(here));
 		String displayRoom = here[2];
 		this.roomDescription = here[3];
 		this.roomID = here[1];
@@ -113,6 +114,11 @@ public class Room extends Observable
 //		System.out.println("===============================================");
 
 	}
+	
+	public void setroomLooted(String room) {
+		roomLooted.add(room);
+	}
+	
 	
 	public void setNavigation() {
 		//System.out.println("In NAV");
@@ -147,16 +153,4 @@ public class Room extends Observable
 	
 	
 	
-	
-//	public static void main(String args[]) {
-//		fetchArtifacts();
-//		
-//				for (String key : mapHolderMap.keySet()) {
-//				    System.out.println(key + " " + mapHolderMap.get(key));
-//				}
-//				
-//				for (String key : completedMaps.keySet()) {
-//				    System.out.println(key + " " + completedMaps.get(key));
-//				}
-//	}
 }

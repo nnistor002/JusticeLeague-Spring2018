@@ -12,7 +12,10 @@ public class Artifacts
 	private FileReader fR;
 	private  Scanner sR;
 	
-	private Map<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
+	Weapons w;
+	
+	public Map<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
+	public Map<String,String> itemEquipedable = new HashMap<String,String>();
 	public List<String[]> itemsInRoom = new ArrayList<String[]>();
 	public Artifacts() {
 		fetchArtifacts();
@@ -65,13 +68,16 @@ public class Artifacts
 			String item = (itemMap.get(s).get(i));
 			String[] z = item.split(",");
 			itemsInRoom.add(z);
-			}	
-		}else {
-		System.out.println("Sorry  No Items Here");
+			
+			for(int j = 0; j < z.length;j++) {
+				String x =  z[j];
+				String[] check = x.split("--");
+					if(check[4].equals("Weapon")) {
+					itemEquipedable.put(check[3], x);
+				}
+			}
+		
+			}
 		}
-//		for(int i = 0; i < itemsInRoom.size();i++) {
-//			String[] x = itemsInRoom.get(i);
-//			System.out.println(Arrays.toString(x));
-//		}
 	}
 }

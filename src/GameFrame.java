@@ -3,33 +3,51 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.sun.glass.ui.View;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.event.ActionEvent;
 
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 
 import java.awt.Font;
 import java.awt.Frame;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JProgressBar;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
-public class GameFrame extends JFrame implements Observable
+public class GameFrame extends JFrame
 {
+	
+	private  Map<String,String> itemDetail = new HashMap<String,String>();
 	
 	
 	JTextField txtFieldMapTitle;
@@ -45,24 +63,23 @@ public class GameFrame extends JFrame implements Observable
 	JPanel roomPanel = new JPanel();
 	JPanel towerPanel = new JPanel();
 	JPanel puzzleContainer = new JPanel();
-	JPanel inventory = new JPanel();
 	JPanel consoleContainer = new JPanel();
 	JPanel playerContainer = new JPanel();
 	JPanel actionContainer = new JPanel();
+	JPanel equipContainer = new JPanel();
 	
 	
 	//================== LABELS ========================|
 	JLabel mapBox = new JLabel("");
 	JLabel lblPlayerHp = new JLabel("Player Health");
 	JLabel lblDamage = new JLabel("Damage");
+	JLabel lblEquip = new JLabel("Equipped Item =");
 	
-
 	
 	//================== TEXT AREA =====================|
 	
 	JTextArea textAreaItemDetails = new JTextArea();
 	JTextArea txtGuiConsolePrintout = new JTextArea();
-	JTextPane txtGuiConsole = new JTextPane();
 	
 	//================== BUTTONS ======================|
 	JButton btnSaveGame = new JButton("Save Game");
@@ -91,6 +108,7 @@ public class GameFrame extends JFrame implements Observable
 	JButton btnSolvePuzzle = new JButton("Solve Puzzle");
 	JButton btnQuitPuzzle = new JButton("Quit Puzzle");
 	JButton btnExamineMonster = new JButton("Examine \r\nMonster");
+	JButton btnExamineItem = new JButton("Item Detail");
 	
 	JButton btnEarth = new JButton("Earth Tower");
 	JButton btnFire = new JButton("Fire Tower");
@@ -100,10 +118,18 @@ public class GameFrame extends JFrame implements Observable
 	
 	//=======================================================
 	JScrollPane scrollPane = new JScrollPane();
-
+	
 	JProgressBar progressBarHealth = new JProgressBar();
 	
+	DefaultListModel fillList = new DefaultListModel();
+	DefaultListModel equitList = new DefaultListModel();
 	
+	public JList inventoryBox = new JList(fillList);
+	public JList equipBox = new JList(equitList);
+	
+	String itemNAME = "";
+	
+	JScrollPane scrollitem = new JScrollPane();
 	
 	public GameFrame()
 	{
@@ -129,9 +155,14 @@ public class GameFrame extends JFrame implements Observable
 		scrollPane.setBounds(10, 11, 787, 428);
 		consoleContainer.add(scrollPane);
 		
-		txtGuiConsolePrintout.setText("");
+		txtGuiConsolePrintout.setText(""
+				+ ""
+				+ " \n                                     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+				+ "\n                                   +++++++++++++++++     WELCOME TO ELEMENTAL DANGER!    +++++++++++++++++ "
+				+ "\n                                      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		txtGuiConsolePrintout.setLineWrap(true);
 		txtGuiConsolePrintout.setWrapStyleWord(true);
+		txtGuiConsolePrintout.setEditable(false);
 		scrollPane.setViewportView(txtGuiConsolePrintout);
 		
 		/*
@@ -149,10 +180,10 @@ public class GameFrame extends JFrame implements Observable
 		lblPlayerHp.setBounds(30, 21, 115, 48);
 		playerContainer.add(lblPlayerHp);
 		
-	
+		
 		progressBarHealth.setBackground(new Color(139, 0, 0));
 		progressBarHealth.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		progressBarHealth.setValue(85);
+		progressBarHealth.setValue(20);
 		progressBarHealth.setStringPainted(true);
 		progressBarHealth.setForeground(new Color(0, 100, 0));
 		progressBarHealth.setBounds(155, 34, 232, 20);
@@ -176,19 +207,45 @@ public class GameFrame extends JFrame implements Observable
 		textFieldDamage.setColumns(10);
 		
 		
-		inventory.setPreferredSize(new Dimension(15, 15));
-		inventory.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		inventory.setBounds(10, 68, 399, 189);
-		playerContainer.add(inventory);
-		inventory.setLayout(new GridLayout(0, 6, 1, 1));
+		inventoryBox.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				itemNAME = (String) inventoryBox.getSelectedValue();
+				//textAreaItemDetails.setText(detail);
+			}
+			
+		});
+		scrollitem.setBounds(10, 110, 400, 150);
+		
+		DefaultListCellRenderer renderer = (DefaultListCellRenderer) inventoryBox.getCellRenderer();
+		renderer.setHorizontalAlignment(SwingConstants.CENTER);
+		scrollitem.setViewportView(inventoryBox);
+		playerContainer.add(scrollitem);
 		
 		textAreaItemDetails.setEditable(false);
-		textAreaItemDetails.setText("Here goes Item Details");
+		textAreaItemDetails.setText("");
 		textAreaItemDetails.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		textAreaItemDetails.setBounds(10, 263, 483, 47);
+		textAreaItemDetails.setBounds(118, 263, 376, 50);
+		textAreaItemDetails.setLineWrap(true);
 		playerContainer.add(textAreaItemDetails);
 		
+		lblEquip.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblEquip.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEquip.setBounds(10, 63, 150, 47);
+		playerContainer.add(lblEquip);
 		
+		
+		DefaultListCellRenderer renderer2 = (DefaultListCellRenderer) equipBox.getCellRenderer();
+		renderer2.setHorizontalAlignment(SwingConstants.CENTER);
+		equipBox.setVisible(true);
+		equipContainer.add(equipBox);
+		
+		equipContainer.add(equipBox);
+		equipContainer.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		equipContainer.setBounds(158,68,250,30);
+		playerContainer.add(equipContainer);
+
 		btnPickup.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnPickup.setBounds(414, 67, 79, 35);
 		btnPickup.setActionCommand("PickupButton");
@@ -200,6 +257,10 @@ public class GameFrame extends JFrame implements Observable
 		btnDrop.setActionCommand("DropButton");
 		playerContainer.add(btnDrop);
 		
+		btnExamineItem.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnExamineItem.setBounds(10, 269, 105, 30);
+		btnExamineItem.setActionCommand("ItemDetails");
+		playerContainer.add(btnExamineItem);
 		
 		btnEquip.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEquip.setBounds(414, 143, 79, 35);
@@ -227,10 +288,10 @@ public class GameFrame extends JFrame implements Observable
 		
 		navContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		navContainer.setBounds(820, 571, 353, 222);
-
+		
 		navContainer.setLayout(null);
 		
-	
+		
 		btnNorth.setIcon(new ImageIcon("Icons/arrow_up.png"));
 		btnNorth.setBounds(59, 15, 50, 50);
 		btnNorth.setActionCommand("NorthButton");
@@ -303,9 +364,10 @@ public class GameFrame extends JFrame implements Observable
 		roomPanel.setBounds(5, 170, 340, 41);
 		navContainer.add(roomPanel);
 		
-
+		
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEnter.setActionCommand("EnterButton");
+		btnEnter.setVisible(false);
 		roomPanel.add(btnEnter);
 		
 		
@@ -328,7 +390,7 @@ public class GameFrame extends JFrame implements Observable
 		
 		actionContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		actionContainer.setBounds(523, 472, 294, 321);
-
+		
 		actionContainer.setLayout(null);
 		
 		
@@ -420,7 +482,7 @@ public class GameFrame extends JFrame implements Observable
 		btnExit.setActionCommand("ExitButton");
 		commandContainer.add(btnExit);
 		
-				
+		
 		/*
 		 * ===================================================================================================|
 		 *                                                                                      MAP CONTAINER
@@ -452,7 +514,7 @@ public class GameFrame extends JFrame implements Observable
 		 *                                                                                      GUI CONTAINER
 		 * ===================================================================================================|
 		 */
-	
+		
 		contentPane.add(mapContainer);
 		contentPane.add(txtFieldMapTitle);
 		contentPane.add(commandContainer);
@@ -505,7 +567,44 @@ public class GameFrame extends JFrame implements Observable
 		btnEarth.addActionListener(controller);
 		btnMetal.addActionListener(controller);
 		btnWood.addActionListener(controller);
+		btnExamineItem.addActionListener(controller);
 	}
+	
+	
+	
+	public void getItems(DefaultListModel z) {
+		for(int i = 0 ; i< z.size();i++) {
+			fillList.addElement(z.getElementAt(i));
+		}
+	}
+	
+	public void equipItem(DefaultListModel x) {
+		if(equitList.isEmpty()) {
+			equitList.addElement(x.getElementAt(0));	
+			txtGuiConsolePrintout.append("You have Equipped an item.");
+		}else {
+			txtGuiConsolePrintout.append("\n Sorry only one item can be equiped at once. \n");
+		}
+		int index = inventoryBox.getSelectedIndex();
+		fillList.removeElementAt(index);
+		itemNAME ="";
+	}
+	public void unequipItem() {
+		fillList.addElement(equitList.getElementAt(0));
+		equitList.clear();
+	}
+	
+	public void dropItems() {
+		int index = inventoryBox.getSelectedIndex();
+		fillList.removeElementAt(index);
+	}
+	
+	public void useItem(double d) {
+		progressBarHealth.setValue((int) Math.round(progressBarHealth.getValue()+d));
+		int index = inventoryBox.getSelectedIndex();
+		fillList.removeElementAt(index);
+	}
+	
 	
 	public static class CloseListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -513,20 +612,6 @@ public class GameFrame extends JFrame implements Observable
 			System.exit(0);
 		} 
 	}
-
-	@Override
-	public void addListener(InvalidationListener arg0)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeListener(InvalidationListener arg0)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	
+	
 }
