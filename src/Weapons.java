@@ -1,7 +1,3 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.DefaultListModel;
 
 public class Weapons extends Artifacts
@@ -9,19 +5,24 @@ public class Weapons extends Artifacts
 	
 	Artifacts a;
 	
-	public Map<String,String> xyz = new HashMap<String,String>();
-	
-	DefaultListModel equiped = new DefaultListModel(); 
+	/*
+	 * This "equipped" model list is for storing the items that the player has equipped.
+	 */
+	DefaultListModel<String> equipped = new DefaultListModel<String>(); 
 
 	public Weapons() {
 		//NOTHING
 	}
 	
-	public DefaultListModel equipIt(String str) {
-		equiped.clear();
-		if(equiped.isEmpty()) {
-			equiped.addElement(str);
+	
+	/*
+	 *   "equipIt" method adds the item that the player wants to equip to the "equipped" model list then gets passed to the view by the controller for display.
+	 */
+	public DefaultListModel<String> equipIt(String str) {
+		equipped.clear();
+		if(equipped.isEmpty()) {
+			equipped.addElement(str);
 		}
-		return equiped;
+		return equipped;
 	}
 }

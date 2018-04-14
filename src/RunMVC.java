@@ -3,6 +3,9 @@ public class RunMVC {
 	
 	public RunMVC() {
 		
+		/*
+		 *  In this class all the classes that the system needs to run are started here.
+		 */
 		
 		GameFrame myView  = new GameFrame();;
 		Room myRoomHandler = new Room();
@@ -12,6 +15,10 @@ public class RunMVC {
 		
 		
 		Controller myController = new Controller();
+		
+		/*
+		 * 
+		 */
 		
 		myController.addModel(myRoomHandler);
 		myController.addModel(myArtifactHandler);

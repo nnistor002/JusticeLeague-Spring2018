@@ -7,14 +7,20 @@ import javax.swing.DefaultListModel;
 
 public class Inventory extends Artifacts
 {
+	// This stores the items description for the button details when the player wants to know the details of an item.
 	public Map<String,String> itemDetail = new HashMap<String,String>();
+	
+	// this hashmap splits the item data for the system to know what can be used and what cannot be used. If item is not in this list the system cannot use it.
 	public Map<String,String[]> itemCanUse = new HashMap<String,String[]>();
-	DefaultListModel listPickedup = new DefaultListModel(); 
+	
+	// Holder for items picked up by the player at the time the button is pressed.
+	DefaultListModel<String> listPickedup = new DefaultListModel<String>(); 
 
+	// This is a holder for the items heal amount for further used. Changes every time the user pushes the use button and the item is a heal item.
 	public double Heal;
 
 	//======================================================
-	String[] startData = {"Heal", "20", "20"}; //================== Temp FIX NEEDS EDIT HERE
+	String[] startData = {"Heal", "20", "20"}; //================== This will get edited by the final for now its just to give the player the items they need for the state of the game..
 	//======================================================
 
 	Artifacts a;
@@ -22,16 +28,19 @@ public class Inventory extends Artifacts
 	public Inventory() {
 		System.out.println("-------------------------------------");
 		//=====================================================
-		itemCanUse.put("Health Potion", startData); //================== Temp FIX NEEDS EDIT HERE
+		itemCanUse.put("Health Potion", startData); //================== This will get edited by the final for now its just to give the player the items they need for the state of the game..
 		//=====================================================
 	}
 
-
-	public  DefaultListModel pickUp(List<String[]> z) {
+	/*
+	 *  "pickUp" method is activated by the pickup button to collect all the items in the artifacts class within the "itemsInRoom" list 
+	 *  then places the items inside "listPickup" model list to pass to the view for display so the player knows what items are in their inventory.
+	 */
+	public  DefaultListModel<String> pickUp(List<String[]> z) {
 		listPickedup.clear();
 		for(int i= 0; i < z.size();i++) {
 			String item = Arrays.toString(z.get(i));
-			//System.out.println(item);
+		
 			String[] x = item.split("--");
 			if(itemDetail.containsKey(x[3])) {
 				//do nothing
@@ -46,17 +55,15 @@ public class Inventory extends Artifacts
 			}
 			listPickedup.addElement(x[3]);
 		}
-
-
-		//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		//		for (String key : itemDetail.keySet()) {
-		//			System.out.println(key + " " + itemDetail.get(key));
-		//		}
-
 		return listPickedup;
 
 	}
 
+	
+	/*
+	 * This method activated by the "USE" button checks if the item is in the "itemCanUse" list to make sure items are usable
+	 * then checks what type of use the item has if it is located inside the "itemCanUse" list.
+	 */
 	public void use(String s) {
 		if(itemCanUse.containsKey(s)) {
 			String[] arrayHold = itemCanUse.get(s);
@@ -64,10 +71,11 @@ public class Inventory extends Artifacts
 				this.Heal = (Integer.parseInt(arrayHold[1].replace("%", ""))/1.5);
 			}
 		}else {
-			//System.out.println("false");  <------------- DAMAGE GOES HERE!!!
+			//System.out.println("false");  <-------------ITEMS THAT DO DAMAGE TO MONSTERS GOES HERE!!! 
 		}
 	}
 
+	// This method gets the item name and displays the description of that item for user to see.
 	public String getDetails(String str) {
 		String d = itemDetail.get(str);	
 		return d;

@@ -1,4 +1,4 @@
-import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -26,7 +26,6 @@ public class Controller implements ActionListener
 				if(a.itemsInRoom.size() != 0 && !r.roomLooted.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
 					r.setroomLooted((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 					view.getItems(i.pickUp(a.itemsInRoom));
-					//System.out.println(i.pickUp(a.itemsInRoom));
 				}else {
 					view.txtGuiConsolePrintout.append("\n Sorry there are no items to pick up.\n");
 				}
@@ -40,9 +39,9 @@ public class Controller implements ActionListener
 			
 			break;
 			case("EquipButton" ):
-				if(a.itemEquipedable.containsKey(view.itemNAME) && view.equitList.isEmpty()) {
+				if(a.itemsEquippable.containsKey(view.itemNAME) && view.equitList.isEmpty()) {
 					w.equipIt(view.itemNAME);
-					view.equipItem(w.equiped);
+					view.equipItem(w.equipped);
 				}else {
 					view.txtGuiConsolePrintout.append("\n Sorry not an item you can equip. \n");
 				}
@@ -58,7 +57,7 @@ public class Controller implements ActionListener
 			
 			break;
 			case("UseItemButton" ):
-				if(a.itemEquipedable.containsKey(view.itemNAME)){
+				if(a.itemsEquippable.containsKey(view.itemNAME)){
 					view.txtGuiConsolePrintout.append("\nWhoops this item can only be equipped or dropped.\n");
 				}else if(view.itemNAME.toString().contains("Key") ||view.itemNAME.toString().contains("Gem")){
 					view.txtGuiConsolePrintout.append("\n NO USE FUCNTION ON THIS ITEM.\n");
@@ -169,9 +168,7 @@ public class Controller implements ActionListener
 			case("EnterButton" ):
 				
 				r.getCurrentLocation(view.mapBox.getIcon());
-			//System.out.println(view.mapBox.getIcon());
 			
-			//System.out.println(r.getCurrentRoom());
 			view.mapBox.setIcon(new ImageIcon(r.getFirstRoom()));
 			view.txtGuiConsolePrintout.append("\n" + r.roomHelp + "\n\n");
 			view.btnEnter.setVisible(false);
@@ -192,7 +189,6 @@ public class Controller implements ActionListener
 				//
 				r.getCurrentRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
 			view.txtGuiConsolePrintout.append("\n" +r.roomDescription+ "\n");
-			//System.out.println(view.mapBox.getIcon());
 			view.txtFieldMapTitle.setText(r.tower + " --  "+ r.roomID);
 			if(r.navBooleanArray[0]== true) {
 				view.btnNorth.setVisible(true);

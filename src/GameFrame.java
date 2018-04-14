@@ -5,23 +5,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.sun.glass.ui.View;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-
 import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.ListSelectionModel;
-
 import java.awt.Font;
 import java.awt.Frame;
-
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -32,17 +20,12 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
-import java.awt.GridLayout;
-import java.awt.Dimension;
+
 
 public class GameFrame extends JFrame
 {
