@@ -27,7 +27,7 @@ public class Controller implements ActionListener {
 				.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
 					r.setroomLooted((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 					view.getItems(i.pickUp(a.itemsInRoom));
-					view.txtGuiConsolePrintout.append("--Items have been picked up--");
+					view.txtGuiConsolePrintout.append("--Items have been picked up--\n");
 				} else {
 					view.txtGuiConsolePrintout.append("\n Sorry there are no items to pick up.\n");
 				}
