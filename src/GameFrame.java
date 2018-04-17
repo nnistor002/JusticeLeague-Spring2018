@@ -35,7 +35,7 @@ public class GameFrame extends JFrame
 
 	JTextField txtFieldMapTitle;
 	JTextField textFieldDamage;
-	JTextField textField_1;
+	JTextField txtPuzzleInput;
 	JPanel contentPane;
 
 	//================== CONTAINERS ===================|
@@ -413,14 +413,22 @@ public class GameFrame extends JFrame
 		btnAttack.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnAttack.setBounds(10, 52, 129, 37);
 		btnAttack.setActionCommand("AttackButton");
+		btnAttack.setVisible(false);
 		actionContainer.add(btnAttack);
 
 
 		btnFlee.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnFlee.setBounds(155, 52, 129, 37);
 		btnFlee.setActionCommand("FleeButton");
+		btnFlee.setVisible(false);
 		actionContainer.add(btnFlee);
 
+
+		btnExamineMonster.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnExamineMonster.setBounds(48, 11, 200, 37);
+		btnExamineMonster.setActionCommand("ExamineMonsterButton");
+		btnExamineMonster.setVisible(false);
+		actionContainer.add(btnExamineMonster);
 
 		puzzleContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		puzzleContainer.setBounds(10, 100, 274, 210);
@@ -431,38 +439,39 @@ public class GameFrame extends JFrame
 		btnExaminePuzzle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnExaminePuzzle.setBounds(10, 11, 128, 36);
 		btnExaminePuzzle.setActionCommand("ExaminePuzzle");
+		btnExaminePuzzle.setVisible(false);
 		puzzleContainer.add(btnExaminePuzzle);
 
 
 		btnHint.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnHint.setBounds(148, 11, 116, 36);
 		btnHint.setActionCommand("HintButton");
+		btnHint.setVisible(false);
 		puzzleContainer.add(btnHint);
 
-		textField_1 = new JTextField();
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_1.setBounds(62, 58, 155, 53);
-		puzzleContainer.add(textField_1);
-		textField_1.setColumns(10);
+		txtPuzzleInput= new JTextField();
+		txtPuzzleInput.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPuzzleInput.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtPuzzleInput.setBounds(62, 58, 155, 53);
+		puzzleContainer.add(txtPuzzleInput);
+		txtPuzzleInput.setColumns(10);
+		txtPuzzleInput.setVisible(false);
 
 
 		btnSolvePuzzle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSolvePuzzle.setBounds(50, 115, 179, 23);
 		btnSolvePuzzle.setActionCommand("SolvePuzzleButton");
+		btnSolvePuzzle.setVisible(false);
 		puzzleContainer.add(btnSolvePuzzle);
 
 
 		btnQuitPuzzle.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnQuitPuzzle.setBounds(80, 149, 116, 36);
 		btnQuitPuzzle.setActionCommand("QuitPuzzleButton");
+		btnQuitPuzzle.setVisible(false);
 		puzzleContainer.add(btnQuitPuzzle);
 
 
-		btnExamineMonster.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnExamineMonster.setBounds(48, 11, 200, 37);
-		btnExamineMonster.setActionCommand("ExamineMonsterButton");
-		actionContainer.add(btnExamineMonster);
 
 
 		/*
