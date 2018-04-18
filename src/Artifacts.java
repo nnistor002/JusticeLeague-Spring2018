@@ -21,6 +21,9 @@ public class Artifacts
 	//  Items that are in the current room the player is in will be stored in itemsInRoom list
 	public List<String[]> itemsInRoom = new ArrayList<String[]>(); 
 
+	public int min;
+	public int max;
+	
 	public Artifacts() {
 		fetchArtifacts();
 
@@ -91,10 +94,20 @@ public class Artifacts
 					String[] check = x.split("--");
 					if(check[4].equals("Weapon")) {
 						itemsEquippable.put(check[3], x);
+						
 					}
 				}
 
 			}
 		}
 	}
+	
+	public void getItemMAXMIN(String s) {
+		//System.out.println(itemsEquippable.get(s));
+		String[] arr = itemsEquippable.get(s).split("--");
+		min = Integer.parseInt(arr[8]);
+		max = Integer.parseInt(arr[7]);
+		System.out.println(min + " ---- " + max);
+	}
+	
 }

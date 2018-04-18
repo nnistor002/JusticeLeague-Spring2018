@@ -118,7 +118,7 @@ public class GameFrame extends JFrame
 	{
 
 		//======================================================
-		fillList.addElement(("Knife"));
+		equitList.addElement(("Knife"));
 
 
 		fillList.addElement(("Health Potion"));
@@ -197,7 +197,7 @@ public class GameFrame extends JFrame
 
 		progressBarHealth.setBackground(new Color(139, 0, 0));
 		progressBarHealth.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		progressBarHealth.setValue(20);
+		progressBarHealth.setValue((int) (150/1.5));
 		progressBarHealth.setStringPainted(true);
 		progressBarHealth.setForeground(new Color(0, 100, 0));
 		progressBarHealth.setBounds(155, 34, 232, 20);
@@ -211,7 +211,7 @@ public class GameFrame extends JFrame
 
 		textFieldDamage = new JTextField();
 		textFieldDamage.setForeground(new Color(0, 0, 255));
-		textFieldDamage.setText("65");
+		textFieldDamage.setText("0 - 5");
 		textFieldDamage.setEditable(false);
 		textFieldDamage.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		textFieldDamage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -596,13 +596,20 @@ public class GameFrame extends JFrame
 	}
 
 
-
+	public void takeDamage(int n) {
+		progressBarHealth.setValue(progressBarHealth.getValue()-n);
+	}
+	
+	public void setHealth(int n) {
+		progressBarHealth.setValue(n);
+	}
+	
 	public void getItems(DefaultListModel z) {
 		for(int i = 0 ; i< z.size();i++) {
 			fillList.addElement(z.getElementAt(i));
 		}
 	}
-
+	
 	public void equipItem(DefaultListModel x) {
 		if(equitList.isEmpty()) {
 			equitList.addElement(x.getElementAt(0));	
@@ -624,12 +631,14 @@ public class GameFrame extends JFrame
 		fillList.removeElementAt(index);
 	}
 
-	public void useItem(double d) {
-		progressBarHealth.setValue((int) Math.round(progressBarHealth.getValue()+d));
+	public void useItem() {
 		int index = inventoryBox.getSelectedIndex();
 		fillList.removeElementAt(index);
 	}
 
+	public void getDamage(int min,int max) {
+		textFieldDamage.setText(min +" - "+ max);
+	}
 
 	public static class CloseListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {

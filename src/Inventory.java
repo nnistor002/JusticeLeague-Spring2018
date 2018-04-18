@@ -18,6 +18,7 @@ public class Inventory extends Artifacts
 
 	// This is a holder for the items heal amount for further used. Changes every time the user pushes the use button and the item is a heal item.
 	public double Heal;
+	public int power;
 
 	//======================================================
 	String[] startData = {"Heal", "20", "20"}; //================== This will get edited by the final for now its just to give the player the items they need for the state of the game..
@@ -69,9 +70,10 @@ public class Inventory extends Artifacts
 			String[] arrayHold = itemCanUse.get(s);
 			if(arrayHold[0].equals("Heal")) {
 				this.Heal = (Integer.parseInt(arrayHold[1].replace("%", ""))/1.5);
+			}else if(arrayHold[0].equals("Damage")){
+				this.power = Integer.parseInt(arrayHold[1].replace("%", ""));
+				System.out.println(power);
 			}
-		}else {
-			//System.out.println("false");  <-------------ITEMS THAT DO DAMAGE TO MONSTERS GOES HERE!!! 
 		}
 	}
 

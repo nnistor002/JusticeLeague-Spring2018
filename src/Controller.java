@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 
+
 public class Controller implements ActionListener {
 	
 	GameFrame view;
@@ -14,6 +15,7 @@ public class Controller implements ActionListener {
 	Weapons w;
 	Player py;
 	Puzzle pz;
+	Monster m;
 	
 	Controller() {
 		System.out.println("Controller()");
@@ -37,12 +39,20 @@ public class Controller implements ActionListener {
 				view.textAreaItemDetails.setText(i.getDetails(view.itemNAME));
 			break;
 			case ("DropButton"):
-				view.dropItems();
+				 if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
+						view.txtGuiConsolePrintout.append("\nYou need this item to escape the castle.\n");
+				 }else {
+					 view.dropItems();
+				 }
+				
 			
 			break;
 			case ("EquipButton"):
 				if (a.itemsEquippable.containsKey(view.itemNAME) && view.equitList.isEmpty()) {
 					w.equipIt(view.itemNAME);
+					a.getItemMAXMIN(view.itemNAME);
+					py.setDamage(a.max, a.min);
+					view.getDamage(py.weaponMin, py.weaponMax);
 					view.equipItem(w.equipped);
 				} else {
 					view.txtGuiConsolePrintout.append("\n Sorry not an item you can equip. \n");
@@ -54,6 +64,8 @@ public class Controller implements ActionListener {
 					view.txtGuiConsolePrintout.append("\nNo item is equipped.\n");
 				} else {
 					view.unequipItem();
+					py.setDamage(3,0);
+					view.getDamage(py.weaponMin,py.weaponMax);
 				}
 			
 			break;
@@ -62,23 +74,72 @@ public class Controller implements ActionListener {
 					view.txtGuiConsolePrintout.append("\nWhoops this item can only be equipped or dropped.\n");
 				} else if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
 					view.txtGuiConsolePrintout.append("\n NO USE FUCNTION ON THIS ITEM.\n");
-				} else {
+				}else if(view.itemNAME.contains("Ball") && m.inbattle == true) {
 					i.use(view.itemNAME);
-					//add in here player gains health with gainHealth() added by Travis
-					view.useItem(i.Heal);
+					view.txtGuiConsolePrintout.append("\n"+m.specialAttack(i.power)+"\n");
+					int damage = m.getMonsterDamage();
+					view.txtGuiConsolePrintout.append("\nThe monster hits you with " +damage + " damage.\n");
+					view.setHealth((int) (py.hp/1.5));
+					view.useItem();
+				}else{
+					i.use(view.itemNAME);
+					//=============================================
+					py.gainHealth(i.Heal);
+					view.setHealth((int) (py.hp));
+					view.useItem();
+					//=============================================
+					
 				}
 			break;
 			case ("ExamineMonsterButton"):
-				
-				break;
+				view.txtGuiConsolePrintout.append("\nYou encountered "+ m.mName +" --- "+m.getMonsterDetails()+"       "+m.mName+" has "+m.mHealth+" health\n");
+				view.txtGuiConsolePrintout.append("\n~~~~~~~~~~~~~~~( If you attack the monster and flee without killing it, it will heal back to full health. )~~~~~~~~~~~~~~~\n");
+				view.btnAttack.setVisible(true);
+				view.btnFlee.setVisible(true);
+			break;
 			case ("AttackButton"):
-				py.dealDamage(py.damage);//added by Travis
-			py.takeDamage(25);  //added by Travis
+				
+				view.txtGuiConsolePrintout.append("\n"+m.doDamage(py.attackDamage())+"\n");
+				m.playerInBattle();
+				int damage = m.getMonsterDamage();
+				py.takeDamage(damage/1.5);
+				view.txtGuiConsolePrintout.append("\nThe monster hits you with " +damage + " damage.\n");
+				view.setHealth((int) (py.hp/1.5));
+			if(m.monsterDead.get(m.currentRoom).equals(true)) {
+				m.playerOutBattle();
+				view.btnAttack.setVisible(false);
+				view.btnExamineMonster.setVisible(false);
+				view.btnFlee.setVisible(false);
+				view.txtGuiConsolePrintout.append("\n      The monster may have dropped something you can now search the room.     \n");
+				view.btnSearchRoom.setVisible(true);
+			}
+			
 			
 			break;
 			case ("FleeButton"):
-				
-				break;
+				m.playerOutBattle();
+				if (r.navBooleanArray[0] == true) {
+					view.btnNorth.setVisible(true);
+				}
+			if (r.navBooleanArray[1] == true) {
+				view.btnEast.setVisible(true);
+			}
+			if (r.navBooleanArray[2] == true) {
+				view.btnSouth.setVisible(true);
+			}
+			if (r.navBooleanArray[3] == true) {
+				view.btnWest.setVisible(true);
+			}
+			if (r.navBooleanArray[4] == true) {
+				view.btnFloorUp.setVisible(true);
+			}
+			if (r.navBooleanArray[5] == true) {
+				view.btnFloorDown.setVisible(true);
+			}
+			view.btnAttack.setVisible(false);
+			view.btnFlee.setVisible(false);
+			view.btnExamineMonster.setVisible(false);
+			break;
 			case ("ExaminePuzzle"):
 				pz.examine(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
 			view.txtGuiConsolePrintout.append("\n"+pz.toStringQC()+"\n");
@@ -91,15 +152,26 @@ public class Controller implements ActionListener {
 				view.txtGuiConsolePrintout.append("\n"+pz.getHint()+"\n");
 			break;
 			case ("SolvePuzzleButton"):
-				view.txtGuiConsolePrintout.append("\n"+pz.getAnswer(view.txtPuzzleInput.getText())+"\n");
-				view.txtPuzzleInput.setText("");
-				break;
+				if(pz.getAnswer(view.txtPuzzleInput.getText()).equals("That's right!")) {
+					view.txtGuiConsolePrintout.append("\n"+pz.getAnswer(view.txtPuzzleInput.getText())+"\n");
+					view.btnHint.setVisible(false);
+					view.txtPuzzleInput.setVisible(false);
+					view.btnQuitPuzzle.setVisible(false);
+					view.btnSolvePuzzle.setVisible(false);
+					view.btnExaminePuzzle.setVisible(false);
+					pz.puzzleComplete(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
+				}else {
+					view.txtGuiConsolePrintout.append("\nSorry try again.....\n");
+				}
+				
+			view.txtPuzzleInput.setText("");
+			break;
 			case ("QuitPuzzleButton"):
 				view.btnHint.setVisible(false);
-				view.txtPuzzleInput.setVisible(false);
-				view.btnQuitPuzzle.setVisible(false);
-				view.btnSolvePuzzle.setVisible(false);
-				view.txtGuiConsolePrintout.append("\n-- You have quit the puzzle --\n");
+			view.txtPuzzleInput.setVisible(false);
+			view.btnQuitPuzzle.setVisible(false);
+			view.btnSolvePuzzle.setVisible(false);
+			view.txtGuiConsolePrintout.append("\n-- You have quit the puzzle --\n");
 			break;
 			case ("NorthButton"):
 				
@@ -117,6 +189,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 					
 				}
 			view.txtFieldMapTitle.setText(
@@ -138,6 +211,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 				}
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -158,6 +232,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 				}
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -178,6 +253,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 				}
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -198,6 +274,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 				}
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -218,6 +295,7 @@ public class Controller implements ActionListener {
 					view.btnQuitPuzzle.setVisible(false);
 					view.btnSolvePuzzle.setVisible(false);
 					view.btnExaminePuzzle.setVisible(false);
+					view.btnSearchRoom.setVisible(false);
 				}
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -238,7 +316,7 @@ public class Controller implements ActionListener {
 			view.btnExitRoom.setVisible(false);
 			view.towerPanel.setVisible(false);
 			view.btnExamineRoom.setVisible(true);
-			view.btnSearchRoom.setVisible(true);
+			view.btnSearchRoom.setVisible(false);
 			view.btnExitRoom.setVisible(true);
 			view.txtFieldMapTitle.setText(
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
@@ -266,10 +344,36 @@ public class Controller implements ActionListener {
 			if (r.navBooleanArray[5] == true) {
 				view.btnFloorDown.setVisible(true);
 			}
-			if(pz.isThereAPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true){
+			if(pz.isThereAPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true && pz.puzzleCompleted.get(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))).equals(false)){
 				pz.getPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
-				view.txtGuiConsolePrintout.append("\nThere is also a puzzle in this room!\n");
+				view.txtGuiConsolePrintout.append("\n ----- There is also a puzzle in this room. -----\n");
 				view.btnExaminePuzzle.setVisible(true);
+			}
+			if(m.isThereAMonster(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true){
+				view.btnSearchRoom.setVisible(false);
+				m.getMonsterInRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
+				view.txtGuiConsolePrintout.append("\n !!!!!!!!!!!!!! ----- Careful, there is a monster in this room! ----- !!!!!!!!!!!!!!\n");
+				view.btnExamineMonster.setVisible(true);
+				if (r.navBooleanArray[0] == true) {
+					view.btnNorth.setVisible(false);
+				}
+				if (r.navBooleanArray[1] == true) {
+					view.btnEast.setVisible(false);
+				}
+				if (r.navBooleanArray[2] == true) {
+					view.btnSouth.setVisible(false);
+				}
+				if (r.navBooleanArray[3] == true) {
+					view.btnWest.setVisible(false);
+				}
+				if (r.navBooleanArray[4] == true) {
+					view.btnFloorUp.setVisible(false);
+				}
+				if (r.navBooleanArray[5] == true) {
+					view.btnFloorDown.setVisible(false);
+				}
+			}else {
+				view.btnSearchRoom.setVisible(true);
 			}
 			break;
 			case ("SearchButton"):
@@ -316,13 +420,18 @@ public class Controller implements ActionListener {
 			case ("LoadGameButton"):
 				
 				break;
+			//==========================================================================
+			//==========================================================================
+			//==========================================================================
+			//==========================================================================
+			
 			case ("HelpButton"):
-				pz.getPuzzle("D2");
-			pz.examine("D2");
-			System.out.println(pz.question);
-			System.out.println(pz.choice);
-			System.out.println(pz.answer);
-			System.out.println(pz.hint);
+				m.getMonsterInRoom("E2");
+			break;
+			//==========================================================================
+			//==========================================================================
+			//==========================================================================
+			//==========================================================================
 			case ("ExitButton"):
 				
 				break;
@@ -388,6 +497,11 @@ public class Controller implements ActionListener {
 	public void addModel(Player playerHandler) {
 		System.out.println("Controller: adding model for Player");
 		this.py = playerHandler;
+	}
+	
+	public void addModel(Monster monsterHandler) {
+		System.out.println("Controller: adding model for Monster");
+		this.m = monsterHandler;
 	}
 	
 }

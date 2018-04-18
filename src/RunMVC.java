@@ -11,6 +11,7 @@ public class RunMVC {
 		Weapons myWeaponHandler = new Weapons();
 		Puzzle myPuzzleHandler = new Puzzle();
 		Player playerHandler = new Player();
+		Monster monsterHandler = new Monster();
 		
 		
 		Controller myController = new Controller();
@@ -22,6 +23,7 @@ public class RunMVC {
 		myController.addView(myView);
 		myController.addModel(playerHandler);
 		myController.addModel(myPuzzleHandler);
+		myController.addModel(monsterHandler);
 
 		
 		

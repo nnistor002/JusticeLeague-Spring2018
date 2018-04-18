@@ -17,10 +17,10 @@ W1--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
 F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
 F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
 F2--AF02--Room--Food Box--Consume--Heals player by 50.--Heal--50--50
-E5--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
-D6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
-M6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
-W7--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--100%--100%
+E5--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--150--150
+D6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--150--150
+M6--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--150--150
+W7--AF01--Room--First Aid--Consume--Restore the player to full health.--Heal--150--150
 M7--AMG01--Drop--Metal Gem--Gem--Used to unlock final boss.--_--_--_
 D2--AWG02--Room--Wood Gem--Gem--Used to unlock final boss.--_--_--_
 E0--AEG01--Room--Earth Gem--Gem--Used to unlock final boss.--_--_--_
