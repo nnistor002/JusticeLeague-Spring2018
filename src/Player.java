@@ -2,33 +2,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Player {
 
-	public double hp = 30;
-	public double damage = 65.0;
+	private Random rn = new Random();
+	
+	public double hp = 150;
+	public double damage ;
+	public int weaponMin = 0;
+	public int weaponMax = 5;
 	public boolean isDead = false;
 
 	private Map<String, ArrayList<String>> playerMap = new HashMap<String, ArrayList<String>>();
 	public List<String[]> playerInRoom = new ArrayList<String[]>();
 
 	public Player() {
-		fetchPlayer();
+		//fetchPlayer();
 	}
 
-	public void setHealth(double health) {
-		hp = health;
+//	public void setHealth(double health) {
+//		hp = health;
+//	}
+
+//	public void getHealth(double itemValue) {
+//
+//		this.hp = hp + itemValue;
+//
+//	}
+
+	public void setDamage(int max, int min) {
+		weaponMin = min;
+		weaponMax = max;
 	}
-
-	public void getHealth(double itemValue) {
-
-		this.hp = hp + itemValue;
-
-	}
-
-	public double dealDamage(double damage) {
+	
+	public double attackDamage( ) {
+		damage = rn.nextInt((weaponMax - weaponMin)+weaponMin);
 		return damage;
-
 	}
 
 	public void takeDamage(double damage) {
@@ -43,7 +53,7 @@ public class Player {
 	}
 
 	public void gainHealth(double health) {
-		hp = health + health;
+		hp = hp + health;
 
 	}
 
@@ -56,10 +66,11 @@ public class Player {
 		//
 	}
 
-	public void fetchPlayer() {
-		// inventory
-		// progressBarValue()
-		// damage
 
-	}
+//	public void fetchPlayer() {
+//		 inventory
+//		 progressBarValue()
+//		 damage
+//
+//	}
 }
