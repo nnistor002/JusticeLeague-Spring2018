@@ -30,6 +30,8 @@ public class Puzzle extends Observable {
 	public String answer;
 	public String question;
 	
+	public Map<String,Boolean> puzzleCompleted = new HashMap<String,Boolean>();
+	
 	// this hashmap splits the puzzle data for the system to know what can be used and what cannot be used. 
 	//If puzzle is not in this list the system cannot use it.
 	//public Map<String,String[]> puzzleCanUse = new HashMap<String,String[]>();
@@ -64,7 +66,7 @@ public class Puzzle extends Observable {
 					localArray2.add(line);
 					puzzleMap.put(e, localArray2);
 				}
-				
+				puzzleCompleted.put(e, false);
 			}
 		} catch (IOException e) {		   
 			e.printStackTrace();
@@ -129,6 +131,10 @@ public class Puzzle extends Observable {
 	
 	public String getHint() {
 		return hint;
+	}
+	
+	public void puzzleComplete(String a) {
+		puzzleCompleted.replace(a, true);
 	}
 	
 	public String toStringQC() {
