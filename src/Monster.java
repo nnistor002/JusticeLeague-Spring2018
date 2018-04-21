@@ -17,7 +17,7 @@ public class Monster {
 	private Map<String, String[]> monsterMap = new HashMap<String, String[]>(); 
 	public Map<String,Boolean> monsterDead = new HashMap<String,Boolean>();
 	
-	private int gemsPlaced = 4;
+	private int gemsPlaced = 0;
 	public boolean finalBossUP = false;
 	
 	public String currentRoom;

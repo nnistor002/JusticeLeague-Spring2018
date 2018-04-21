@@ -453,10 +453,10 @@ public class Controller implements ActionListener {
 					view.txtFieldMapTitle
 					.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 					if(
-//							view.itemList.contains("Wood Gem") && 
-//							view.itemList.contains("Metal Gem") &&
-//							view.itemList.contains("Earth Gem") &&
-//							view.itemList.contains("Fire Gem") &&
+							view.itemList.contains("Wood Gem") && 
+							view.itemList.contains("Metal Gem") &&
+							view.itemList.contains("Earth Gem") &&
+							view.itemList.contains("Fire Gem") &&
 							view.itemList.contains("Water Gem")
 							) {
 						view.btnHint.setVisible(false);
