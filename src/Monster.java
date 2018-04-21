@@ -8,15 +8,18 @@ import java.util.Scanner;
 
 
 public class Monster {
-
+	
 	private FileReader fR;
 	private  Scanner sR;
-
+	
 	private Random rn = new Random();
-
+	
 	private Map<String, String[]> monsterMap = new HashMap<String, String[]>(); 
 	public Map<String,Boolean> monsterDead = new HashMap<String,Boolean>();
-
+	
+	private int gemsPlaced = 0;
+	public boolean finalBossUP = false;
+	
 	public String currentRoom;
 	public String mName;
 	public String mDetails;
@@ -24,24 +27,24 @@ public class Monster {
 	public double mHealth;
 	public int mDamageMin;
 	public int mDamageMax;
-
+	
 	public boolean inbattle;
-
+	
 	public Monster() {
 		fetchMonsterData();
 	}
-
+	
 	public void fetchMonsterData() {
-
+		
 		try{		
 			fR = new FileReader("Monster.txt");
 			sR = new Scanner(fR);
-
+			
 			while(sR.hasNextLine()) {
 				String line = sR.nextLine();
 				String[] splitLine = line.split("--");
 				String e = splitLine[0];
-
+				
 				monsterMap.put(e, splitLine);
 				monsterDead.put(e, false);
 			}
@@ -51,20 +54,20 @@ public class Monster {
 			e.printStackTrace();
 		}	
 	}	
-
+	
 	public String getMonsterDetails() {
 		return mDetails;
 	}
-
+	
 	public void attackMonster() {
-
+		
 	}
-
+	
 	public int getMonsterDamage() {
 		int d = rn.nextInt((mDamageMax - mDamageMin) + 1) + mDamageMin;
 		return d;
 	}
-
+	
 	public String doDamage(double d) {
 		if((mHealth-d) <= 0.0) {
 			monsterDead.replace(currentRoom, true);
@@ -73,8 +76,8 @@ public class Monster {
 		mHealth -= d;
 		return "The monster took damage now its health is "+ mHealth; 
 	}
-
-
+	
+	
 	public void getMonsterInRoom(String room) {
 		if(monsterMap.containsKey(room)) {
 			String[] m = monsterMap.get(room);
@@ -95,18 +98,18 @@ public class Monster {
 			}else{
 				return true;
 			}
-
+			
 		}else{
 			return false;
 		}
-
+		
 	}
-
+	
 	public void playerInBattle() {
 		inbattle = true;
 		System.out.println(inbattle);
 	}
-
+	
 	public void playerOutBattle() {
 		inbattle = false;
 		System.out.println(inbattle);
@@ -114,18 +117,41 @@ public class Monster {
 	
 	public String specialAttack(int n) {
 		int d;
-			d = (mMaxHp/2);
-			String str =doDamage(d);
+		d = (mMaxHp/2);
+		String str =doDamage(d);
 		return str;
 	}
-
-
-
-
-
-
-
-
-
-
+	
+	public String placeGems(String s) {
+		String str = "You have placed the ";
+		if(gemsPlaced == 0) {
+			System.out.println(gemsPlaced);
+			gemsPlaced += 1;
+			return str+s;
+		}else if(gemsPlaced == 1) {
+			System.out.println(gemsPlaced);
+			gemsPlaced += 1;
+			return str+s;
+		}else if(gemsPlaced == 2) {
+			System.out.println(gemsPlaced);
+			gemsPlaced += 1;
+			return str+s;
+		}else if(gemsPlaced == 3) {
+			System.out.println(gemsPlaced);
+			gemsPlaced += 1;
+			return str+s;
+		}else {
+			System.out.println(gemsPlaced);
+			finalBossUP = true;
+			return str+s+ " ~~~~~~~~~~ The dragon statue starts to awake ~~~~~~~~~~";
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

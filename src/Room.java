@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,14 @@ public class Room extends Observable
 		roomLooted.add(room);
 	}
 	
+	
+	public String getCourtYardDetails() {
+		ArrayList<String> str = mapHolderMap.get("CourtYard");
+		String str2 = str.get(0);
+		String[] fStr = str2.split("--");
+		String cyDetails = fStr[3];
+		return cyDetails;
+	}
 	
 	public void setNavigation() {
 		for(int i = 0; i < currentRoom.size();i++) {

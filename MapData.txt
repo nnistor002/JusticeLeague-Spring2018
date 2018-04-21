@@ -35,3 +35,4 @@ MetalWing--M4--Maps/M4.png--Standing in the archway is a Meken . You can see a t
 MetalWing--M5--Maps/M5.png--The room is dark and barren there is an armor with a skeleton within. In the lap of the skeleton is a Great Axe --Maps/M3.png--_--_--_--_--_
 MetalWing--M6--Maps/M6.png--The room is covered in broken blades and bones. pieces of armor ripped torn. --_--_--_--Maps/M3.png--Maps/M7.png--_
 MetalWing--M7--Maps/M7.png--In this room the walls are covered in spikes. the floor is smooth iron and there is no ceiling  --_--_--_--_--_--Maps/M6.png
+CourtYard--C0--Maps/CourtYard.png--Big open area with a statue of a large dragon in the middle. there are five pedestals with the five elements on them.--_--_--_--_--_--_

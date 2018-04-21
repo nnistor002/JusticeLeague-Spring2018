@@ -29,7 +29,7 @@ public class Controller implements ActionListener {
 				.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
 					r.setroomLooted((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 					view.getItems(i.pickUp(a.itemsInRoom));
-					view.txtGuiConsolePrintout.append("--Items have been picked up--\n");
+					view.txtGuiConsolePrintout.append("\n --Items have been picked up-- \n");
 				} else {
 					view.txtGuiConsolePrintout.append("\n Sorry there are no items to pick up.\n");
 				}
@@ -39,16 +39,16 @@ public class Controller implements ActionListener {
 				view.textAreaItemDetails.setText(i.getDetails(view.itemNAME));
 			break;
 			case ("DropButton"):
-				 if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
-						view.txtGuiConsolePrintout.append("\nYou need this item to escape the castle.\n");
-				 }else {
-					 view.dropItems();
-				 }
-				
+				if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
+					view.txtGuiConsolePrintout.append("\nYou need this item to escape the castle.\n");
+				}else {
+					view.dropItems();
+				}
+			
 			
 			break;
 			case ("EquipButton"):
-				if (a.itemsEquippable.containsKey(view.itemNAME) && view.equitList.isEmpty()) {
+				if (a.itemsEquippable.containsKey(view.itemNAME) && view.equipList.isEmpty()) {
 					w.equipIt(view.itemNAME);
 					a.getItemMAXMIN(view.itemNAME);
 					py.setDamage(a.max, a.min);
@@ -60,7 +60,7 @@ public class Controller implements ActionListener {
 			
 			break;
 			case ("UnequipButton"):
-				if (view.equitList.isEmpty()) {
+				if (view.equipList.isEmpty()) {
 					view.txtGuiConsolePrintout.append("\nNo item is equipped.\n");
 				} else {
 					view.unequipItem();
@@ -70,7 +70,15 @@ public class Controller implements ActionListener {
 			
 			break;
 			case ("UseItemButton"):
-				if (a.itemsEquippable.containsKey(view.itemNAME)) {
+				if(view.txtFieldMapTitle.getText().equals("CourtYard") && view.itemNAME.contains("Gem")) {
+					m.placeGems(view.itemNAME);
+					view.useItem();
+					if(m.finalBossUP == true) {
+						m.getMonsterInRoom("C0");
+						view.txtGuiConsolePrintout.append("\n !!!!!!!!!!!!!! ----- BOSS is up ----- !!!!!!!!!!!!!!\n");
+						view.btnExamineMonster.setVisible(true);
+					}	
+				}else if (a.itemsEquippable.containsKey(view.itemNAME)) {
 					view.txtGuiConsolePrintout.append("\nWhoops this item can only be equipped or dropped.\n");
 				} else if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
 					view.txtGuiConsolePrintout.append("\n NO USE FUCNTION ON THIS ITEM.\n");
@@ -93,18 +101,21 @@ public class Controller implements ActionListener {
 			break;
 			case ("ExamineMonsterButton"):
 				view.txtGuiConsolePrintout.append("\nYou encountered "+ m.mName +" --- "+m.getMonsterDetails()+"       "+m.mName+" has "+m.mHealth+" health\n");
-				view.txtGuiConsolePrintout.append("\n~~~~~~~~~~~~~~~( If you attack the monster and flee without killing it, it will heal back to full health. )~~~~~~~~~~~~~~~\n");
-				view.btnAttack.setVisible(true);
-				view.btnFlee.setVisible(true);
+			view.txtGuiConsolePrintout.append("\n~~~~~~~~~~~~~~~( If you attack the monster and flee without killing it, it will heal back to full health. )~~~~~~~~~~~~~~~\n");
+			view.btnAttack.setVisible(true);
+			view.btnFlee.setVisible(true);
+			if(view.txtFieldMapTitle.getText().equals("CourtYard")) {
+				view.btnFlee.setVisible(false);
+			}
 			break;
 			case ("AttackButton"):
 				
 				view.txtGuiConsolePrintout.append("\n"+m.doDamage(py.attackDamage())+"\n");
-				m.playerInBattle();
-				int damage = m.getMonsterDamage();
-				py.takeDamage(damage/1.5);
-				view.txtGuiConsolePrintout.append("\nThe monster hits you with " +damage + " damage.\n");
-				view.setHealth((int) (py.hp/1.5));
+			m.playerInBattle();
+			int damage = m.getMonsterDamage();
+			py.takeDamage(damage/1.5);
+			view.txtGuiConsolePrintout.append("\nThe monster hits you with " +damage + " damage.\n");
+			view.setHealth((int) (py.hp/1.5));
 			if(m.monsterDead.get(m.currentRoom).equals(true)) {
 				m.playerOutBattle();
 				view.btnAttack.setVisible(false);
@@ -118,9 +129,9 @@ public class Controller implements ActionListener {
 			break;
 			case ("FleeButton"):
 				m.playerOutBattle();
-				if (r.navBooleanArray[0] == true) {
-					view.btnNorth.setVisible(true);
-				}
+			if (r.navBooleanArray[0] == true) {
+				view.btnNorth.setVisible(true);
+			}
 			if (r.navBooleanArray[1] == true) {
 				view.btnEast.setVisible(true);
 			}
@@ -163,7 +174,7 @@ public class Controller implements ActionListener {
 				}else {
 					view.txtGuiConsolePrintout.append("\nSorry try again.....\n");
 				}
-				
+			
 			view.txtPuzzleInput.setText("");
 			break;
 			case ("QuitPuzzleButton"):
@@ -322,59 +333,64 @@ public class Controller implements ActionListener {
 					(r.tower + " --  " + view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 			break;
 			case ("ExamineRoomButton"):
-				//
-				r.getCurrentRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
-			view.txtGuiConsolePrintout.append("\n" + r.roomDescription + "\n");
-			view.txtFieldMapTitle.setText(r.tower + " --  " + r.roomID);
-			if (r.navBooleanArray[0] == true) {
-				view.btnNorth.setVisible(true);
-			}
-			if (r.navBooleanArray[1] == true) {
-				view.btnEast.setVisible(true);
-			}
-			if (r.navBooleanArray[2] == true) {
-				view.btnSouth.setVisible(true);
-			}
-			if (r.navBooleanArray[3] == true) {
-				view.btnWest.setVisible(true);
-			}
-			if (r.navBooleanArray[4] == true) {
-				view.btnFloorUp.setVisible(true);
-			}
-			if (r.navBooleanArray[5] == true) {
-				view.btnFloorDown.setVisible(true);
-			}
-			if(pz.isThereAPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true && pz.puzzleCompleted.get(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))).equals(false)){
-				pz.getPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
-				view.txtGuiConsolePrintout.append("\n ----- There is also a puzzle in this room. -----\n");
-				view.btnExaminePuzzle.setVisible(true);
-			}
-			if(m.isThereAMonster(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true){
-				view.btnSearchRoom.setVisible(false);
-				m.getMonsterInRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
-				view.txtGuiConsolePrintout.append("\n !!!!!!!!!!!!!! ----- Careful, there is a monster in this room! ----- !!!!!!!!!!!!!!\n");
-				view.btnExamineMonster.setVisible(true);
-				if (r.navBooleanArray[0] == true) {
-					view.btnNorth.setVisible(false);
+				if(view.txtFieldMapTitle.getText().equals("CourtYard")) {
+					view.txtGuiConsolePrintout.append("\n "+r.getCourtYardDetails()+"\n");
+					view.txtGuiConsolePrintout.append("\n  You can use the Gem to place them on the pedestals to see what happens...   \n");
+				}else {
+					r.getCurrentRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
+					view.txtGuiConsolePrintout.append(" \n " + r.roomDescription + " \n ");
+					view.txtFieldMapTitle.setText(r.tower + " --  " + r.roomID);
+					if (r.navBooleanArray[0] == true) {
+						view.btnNorth.setVisible(true);
+					}
+					if (r.navBooleanArray[1] == true) {
+						view.btnEast.setVisible(true);
+					}
+					if (r.navBooleanArray[2] == true) {
+						view.btnSouth.setVisible(true);
+					}
+					if (r.navBooleanArray[3] == true) {
+						view.btnWest.setVisible(true);
+					}
+					if (r.navBooleanArray[4] == true) {
+						view.btnFloorUp.setVisible(true);
+					}
+					if (r.navBooleanArray[5] == true) {
+						view.btnFloorDown.setVisible(true);
+					}
+					if(pz.isThereAPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true && pz.puzzleCompleted.get(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))).equals(false)){
+						pz.getPuzzle(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
+						view.txtGuiConsolePrintout.append("\n ----- There is also a puzzle in this room. ----- \n");
+						view.btnExaminePuzzle.setVisible(true);
+					}
+					
+					if(m.isThereAMonster(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) == true){
+						view.btnSearchRoom.setVisible(false);
+						m.getMonsterInRoom(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
+						view.txtGuiConsolePrintout.append("\n !!!!!!!!!!!!!! ----- Careful, there is a monster in this room! ----- !!!!!!!!!!!!!!\n");
+						view.btnExamineMonster.setVisible(true);
+						if (r.navBooleanArray[0] == true) {
+							view.btnNorth.setVisible(false);
+						}
+						if (r.navBooleanArray[1] == true) {
+							view.btnEast.setVisible(false);
+						}
+						if (r.navBooleanArray[2] == true) {
+							view.btnSouth.setVisible(false);
+						}
+						if (r.navBooleanArray[3] == true) {
+							view.btnWest.setVisible(false);
+						}
+						if (r.navBooleanArray[4] == true) {
+							view.btnFloorUp.setVisible(false);
+						}
+						if (r.navBooleanArray[5] == true) {
+							view.btnFloorDown.setVisible(false);
+						}
+					}else {
+						view.btnSearchRoom.setVisible(true);
+					}
 				}
-				if (r.navBooleanArray[1] == true) {
-					view.btnEast.setVisible(false);
-				}
-				if (r.navBooleanArray[2] == true) {
-					view.btnSouth.setVisible(false);
-				}
-				if (r.navBooleanArray[3] == true) {
-					view.btnWest.setVisible(false);
-				}
-				if (r.navBooleanArray[4] == true) {
-					view.btnFloorUp.setVisible(false);
-				}
-				if (r.navBooleanArray[5] == true) {
-					view.btnFloorDown.setVisible(false);
-				}
-			}else {
-				view.btnSearchRoom.setVisible(true);
-			}
 			break;
 			case ("SearchButton"):
 				if (r.roomLooted.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
@@ -390,7 +406,7 @@ public class Controller implements ActionListener {
 				}
 			break;
 			case ("ExitRoomButton"):
-				if (view.fillList.contains(r.tower.replace("Wing", "") + " Exit Key")) {
+				if (view.itemList.contains(r.tower.replace("Wing", "") + " Exit Key")) {
 					
 					r.currentRoom.clear();
 					view.mapBox.setIcon(new ImageIcon("Maps/" + r.tower + ".png"));
@@ -407,8 +423,39 @@ public class Controller implements ActionListener {
 					view.btnSearchRoom.setVisible(false);
 					view.btnExitRoom.setVisible(false);
 					view.btnEnter.setVisible(true);
+					view.btnHint.setVisible(false);
+					view.txtPuzzleInput.setVisible(false);
+					view.btnQuitPuzzle.setVisible(false);
+					view.btnSolvePuzzle.setVisible(false);
+					view.btnExaminePuzzle.setVisible(false);
+					
 					view.txtFieldMapTitle
 					.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
+					if(
+							view.itemList.contains("Wood Gem") && 
+							view.itemList.contains("Metal Gem") &&
+							view.itemList.contains("Earth Gem") &&
+							view.itemList.contains("Fire Gem") &&
+							view.itemList.contains("Water Gem")
+							) {
+						view.btnHint.setVisible(false);
+						view.txtPuzzleInput.setVisible(false);
+						view.btnQuitPuzzle.setVisible(false);
+						view.btnSolvePuzzle.setVisible(false);
+						view.btnExaminePuzzle.setVisible(false);
+						view.btnExamineRoom.setVisible(true);
+						view.btnEnter.setVisible(false);
+						view.btnNorth.setVisible(false);
+						view.btnEast.setVisible(false);
+						view.btnSouth.setVisible(false);
+						view.btnWest.setVisible(false);
+						view.btnFloorUp.setVisible(false);
+						view.btnFloorDown.setVisible(false);
+						view.btnExitRoom.setVisible(false);
+						view.txtGuiConsolePrintout.append("\n ~~~~~~~~~~~~ You have collected all 5 gems and notice in the court yard 5 pedestals with 5 elements on them. ~~~~~~~~~~~~\n");
+						view.bossPanel.setVisible(true);
+						
+					}
 				} else {
 					view.txtGuiConsolePrintout.append(
 							"\n -------------------|   THE EXIT DOOR IS LOCKED YOU NEED THE TOWER'S EXIT KEY  TO LEAVE |------------------- \n");
@@ -420,18 +467,11 @@ public class Controller implements ActionListener {
 			case ("LoadGameButton"):
 				
 				break;
-			//==========================================================================
-			//==========================================================================
-			//==========================================================================
-			//==========================================================================
 			
 			case ("HelpButton"):
-				m.getMonsterInRoom("E2");
-			break;
-			//==========================================================================
-			//==========================================================================
-			//==========================================================================
-			//==========================================================================
+				
+				break;
+			
 			case ("ExitButton"):
 				
 				break;
@@ -459,6 +499,11 @@ public class Controller implements ActionListener {
 				view.mapBox.setIcon(new ImageIcon("Maps/EarthWing.png"));
 			view.btnEnter.setVisible(true);
 			view.txtFieldMapTitle.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
+			break;
+			case("Court Yard"):
+				view.mapBox.setIcon(new ImageIcon("Maps/CourtYard.png"));
+			view.txtFieldMapTitle.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
+			System.out.println(view.txtFieldMapTitle.getText());
 			break;
 		}
 		

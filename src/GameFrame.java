@@ -39,7 +39,8 @@ public class GameFrame extends JFrame
 	JPanel contentPane;
 
 	//================== CONTAINERS ===================|
-
+	
+	JPanel bossPanel = new JPanel();
 	JPanel mapContainer = new JPanel();
 	JPanel commandContainer = new JPanel();
 	JPanel navContainer = new JPanel();
@@ -98,17 +99,18 @@ public class GameFrame extends JFrame
 	JButton btnWood = new JButton("Wood Tower");
 	JButton btnMetal = new JButton("Metal Tower");
 	JButton btnWater = new JButton("Water Tower");
+	JButton btnCourtYard = new JButton("CourtYard");
 
 	//=======================================================
 	JScrollPane scrollPane = new JScrollPane();
 
 	JProgressBar progressBarHealth = new JProgressBar();
 
-	DefaultListModel fillList = new DefaultListModel();
-	DefaultListModel equitList = new DefaultListModel();
+	DefaultListModel itemList = new DefaultListModel();
+	DefaultListModel equipList = new DefaultListModel();
 
-	public JList inventoryBox = new JList(fillList);
-	public JList equipBox = new JList(equitList);
+	public JList inventoryBox = new JList(itemList);
+	public JList equipBox = new JList(equipList);
 
 	String itemNAME = "";
 
@@ -118,30 +120,30 @@ public class GameFrame extends JFrame
 	{
 
 		//======================================================
-		equitList.addElement(("Knife"));
+		equipList.addElement(("Knife"));
 
 
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));       //================== TEMP FIX NEED EDIT HERE
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
-		fillList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));       //================== TEMP FIX NEED EDIT HERE
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
+		itemList.addElement(("Health Potion"));
 
 		//======================================================
 
@@ -353,8 +355,16 @@ public class GameFrame extends JFrame
 		towerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		towerPanel.setBounds(5, 35, 340, 70);
 		navContainer.add(towerPanel);
-
-
+		
+		bossPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		bossPanel.setBounds(5, 115, 340, 35);
+		bossPanel.setVisible(false);
+		navContainer.add(bossPanel);
+		
+		
+		btnCourtYard.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnCourtYard.setActionCommand("Court Yard");
+		bossPanel.add(btnCourtYard);
 
 		btnWater.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnWater.setActionCommand("WaterButton");
@@ -593,6 +603,7 @@ public class GameFrame extends JFrame
 		btnMetal.addActionListener(controller);
 		btnWood.addActionListener(controller);
 		btnExamineItem.addActionListener(controller);
+		btnCourtYard.addActionListener(controller);
 	}
 
 
@@ -606,34 +617,34 @@ public class GameFrame extends JFrame
 	
 	public void getItems(DefaultListModel z) {
 		for(int i = 0 ; i< z.size();i++) {
-			fillList.addElement(z.getElementAt(i));
+			itemList.addElement(z.getElementAt(i));
 		}
 	}
 	
 	public void equipItem(DefaultListModel x) {
-		if(equitList.isEmpty()) {
-			equitList.addElement(x.getElementAt(0));	
+		if(equipList.isEmpty()) {
+			equipList.addElement(x.getElementAt(0));	
 			txtGuiConsolePrintout.append("You have Equipped an item.");
 		}else {
 			txtGuiConsolePrintout.append("\n Sorry only one item can be equiped at once. \n");
 		}
 		int index = inventoryBox.getSelectedIndex();
-		fillList.removeElementAt(index);
+		itemList.removeElementAt(index);
 		itemNAME ="";
 	}
 	public void unequipItem() {
-		fillList.addElement(equitList.getElementAt(0));
-		equitList.clear();
+		itemList.addElement(equipList.getElementAt(0));
+		equipList.clear();
 	}
 
 	public void dropItems() {
 		int index = inventoryBox.getSelectedIndex();
-		fillList.removeElementAt(index);
+		itemList.removeElementAt(index);
 	}
 
 	public void useItem() {
 		int index = inventoryBox.getSelectedIndex();
-		fillList.removeElementAt(index);
+		itemList.removeElementAt(index);
 	}
 
 	public void getDamage(int min,int max) {
