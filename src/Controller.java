@@ -77,10 +77,23 @@ public class Controller implements ActionListener {
 						m.getMonsterInRoom("C0");
 						view.txtGuiConsolePrintout.append("\n !!!!!!!!!!!!!! ----- BOSS is up ----- !!!!!!!!!!!!!!\n");
 						view.btnExamineMonster.setVisible(true);
+						view.towerPanel.setVisible(false);
+						view.bossPanel.setVisible(false);
 					}	
 				}else if (a.itemsEquippable.containsKey(view.itemNAME)) {
 					view.txtGuiConsolePrintout.append("\nWhoops this item can only be equipped or dropped.\n");
-				} else if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
+				} else if(view.itemNAME.toString().equals("Master Key")) {
+					view.gameOverWIN.setVisible(true);
+					view.mapContainer.setVisible(false);
+					view.txtFieldMapTitle.setVisible(false);
+					view.commandContainer.setVisible(false);
+					view.navContainer.setVisible(false);
+					view.actionContainer.setVisible(false);
+					view.playerContainer.setVisible(false);
+					view.consoleContainer.setVisible(false);
+					
+					//System.out.println("YOU HAVE FINISHED THE GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				}else if (view.itemNAME.toString().contains("Key") || view.itemNAME.toString().contains("Gem")) {
 					view.txtGuiConsolePrintout.append("\n NO USE FUCNTION ON THIS ITEM.\n");
 				}else if(view.itemNAME.contains("Ball") && m.inbattle == true) {
 					i.use(view.itemNAME);
@@ -393,7 +406,15 @@ public class Controller implements ActionListener {
 				}
 			break;
 			case ("SearchButton"):
-				if (r.roomLooted.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
+				if(view.txtFieldMapTitle.getText().equals("CourtYard")) {
+					a.getItems("C0");
+					view.txtGuiConsolePrintout.append("\n There is  " + a.itemsInRoom.size() + " items in this room. \n");
+					for (int i = 0; i < a.itemsInRoom.size(); i++) {
+						String item = Arrays.toString(a.itemsInRoom.get(i));
+						String[] x = item.split("--");
+						view.txtGuiConsolePrintout.append("---------- " + x[3] + " ----------\n");
+					}
+				}else if (r.roomLooted.contains((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""))) {
 					view.txtGuiConsolePrintout.append("\n This room has been searched and looted.\n");
 				} else {
 					a.getItems(((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", "")));
@@ -432,10 +453,10 @@ public class Controller implements ActionListener {
 					view.txtFieldMapTitle
 					.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
 					if(
-							view.itemList.contains("Wood Gem") && 
-							view.itemList.contains("Metal Gem") &&
-							view.itemList.contains("Earth Gem") &&
-							view.itemList.contains("Fire Gem") &&
+//							view.itemList.contains("Wood Gem") && 
+//							view.itemList.contains("Metal Gem") &&
+//							view.itemList.contains("Earth Gem") &&
+//							view.itemList.contains("Fire Gem") &&
 							view.itemList.contains("Water Gem")
 							) {
 						view.btnHint.setVisible(false);
@@ -473,7 +494,7 @@ public class Controller implements ActionListener {
 				break;
 			
 			case ("ExitButton"):
-				
+				 System.exit(0);
 				break;
 			case ("WaterButton"):
 				view.mapBox.setIcon(new ImageIcon("Maps/WaterWing.png"));
@@ -503,7 +524,7 @@ public class Controller implements ActionListener {
 			case("Court Yard"):
 				view.mapBox.setIcon(new ImageIcon("Maps/CourtYard.png"));
 			view.txtFieldMapTitle.setText((view.mapBox.getIcon().toString().replace(".png", "")).replace("Maps/", ""));
-			System.out.println(view.txtFieldMapTitle.getText());
+			//System.out.println(view.txtFieldMapTitle.getText());
 			break;
 		}
 		

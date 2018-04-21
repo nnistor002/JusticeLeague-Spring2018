@@ -120,7 +120,7 @@ public class Puzzle extends Observable {
 	}
 	
 	public String getAnswer(String a) { // String a is the answer from user 
-		if(answer.contains(a.substring(0,1).toUpperCase())) {		////answer needs to use equal not contains
+		if(answer.toLowerCase().equals(a.toLowerCase())) {		////answer needs to use equal not contains
 			String r= "That's right!";
 			return r;
 		} else {

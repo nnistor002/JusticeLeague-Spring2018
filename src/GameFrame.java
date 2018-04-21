@@ -51,14 +51,14 @@ public class GameFrame extends JFrame
 	JPanel playerContainer = new JPanel();
 	JPanel actionContainer = new JPanel();
 	JPanel equipContainer = new JPanel();
-
+	
 
 	//================== LABELS ========================|
 	JLabel mapBox = new JLabel("");
 	JLabel lblPlayerHp = new JLabel("Player Health");
 	JLabel lblDamage = new JLabel("Damage");
 	JLabel lblEquip = new JLabel("Equipped Item =");
-
+	JLabel gameOverWIN = new JLabel();
 
 	//================== TEXT AREA =====================|
 
@@ -79,7 +79,7 @@ public class GameFrame extends JFrame
 	JButton btnEnter = new JButton("Enter");
 	JButton btnExamineRoom = new JButton("Examine");
 	JButton btnSearchRoom = new JButton("Search");
-	JButton btnExitRoom = new JButton("Exit Room");
+	JButton btnExitRoom = new JButton("Exit");
 	JButton btnPickup = new JButton("Pickup");
 	JButton btnDrop = new JButton("Drop");
 	JButton btnEquip = new JButton("Equip");
@@ -164,7 +164,10 @@ public class GameFrame extends JFrame
 		consoleContainer.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		consoleContainer.setBounds(10, 11, 807, 450);
 		consoleContainer.setLayout(null);
-
+		
+		gameOverWIN.setIcon(new ImageIcon("Icons/winGame.png"));
+		gameOverWIN.setBounds(5, 6, 1327,795);
+		gameOverWIN.setVisible(false);
 
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 11, 787, 428);
@@ -549,7 +552,8 @@ public class GameFrame extends JFrame
 		 *                                                                                      GUI CONTAINER
 		 * ===================================================================================================|
 		 */
-
+		
+		contentPane.add(gameOverWIN);
 		contentPane.add(mapContainer);
 		contentPane.add(txtFieldMapTitle);
 		contentPane.add(commandContainer);
@@ -557,6 +561,7 @@ public class GameFrame extends JFrame
 		contentPane.add(actionContainer);
 		contentPane.add(playerContainer);
 		contentPane.add(consoleContainer);
+		
 
 
 		frame.addWindowListener(new CloseListener()); 
@@ -657,6 +662,5 @@ public class GameFrame extends JFrame
 			System.exit(0);
 		} 
 	}
-
 
 }

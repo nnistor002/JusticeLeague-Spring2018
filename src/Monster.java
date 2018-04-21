@@ -17,7 +17,7 @@ public class Monster {
 	private Map<String, String[]> monsterMap = new HashMap<String, String[]>(); 
 	public Map<String,Boolean> monsterDead = new HashMap<String,Boolean>();
 	
-	private int gemsPlaced = 0;
+	private int gemsPlaced = 4;
 	public boolean finalBossUP = false;
 	
 	public String currentRoom;
@@ -81,7 +81,7 @@ public class Monster {
 	public void getMonsterInRoom(String room) {
 		if(monsterMap.containsKey(room)) {
 			String[] m = monsterMap.get(room);
-			System.out.println(Arrays.toString(m));
+			//System.out.println(Arrays.toString(m));
 			currentRoom = m[0];
 			mName = m[2];
 			mDetails = m[3];
@@ -107,12 +107,12 @@ public class Monster {
 	
 	public void playerInBattle() {
 		inbattle = true;
-		System.out.println(inbattle);
+		//System.out.println(inbattle);
 	}
 	
 	public void playerOutBattle() {
 		inbattle = false;
-		System.out.println(inbattle);
+		//System.out.println(inbattle);
 	}
 	
 	public String specialAttack(int n) {
@@ -125,23 +125,18 @@ public class Monster {
 	public String placeGems(String s) {
 		String str = "You have placed the ";
 		if(gemsPlaced == 0) {
-			System.out.println(gemsPlaced);
 			gemsPlaced += 1;
 			return str+s;
 		}else if(gemsPlaced == 1) {
-			System.out.println(gemsPlaced);
 			gemsPlaced += 1;
 			return str+s;
 		}else if(gemsPlaced == 2) {
-			System.out.println(gemsPlaced);
 			gemsPlaced += 1;
 			return str+s;
 		}else if(gemsPlaced == 3) {
-			System.out.println(gemsPlaced);
 			gemsPlaced += 1;
 			return str+s;
 		}else {
-			System.out.println(gemsPlaced);
 			finalBossUP = true;
 			return str+s+ " ~~~~~~~~~~ The dragon statue starts to awake ~~~~~~~~~~";
 		}

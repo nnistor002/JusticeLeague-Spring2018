@@ -107,7 +107,7 @@ public class Artifacts
 		String[] arr = itemsEquippable.get(s).split("--");
 		min = Integer.parseInt(arr[8]);
 		max = Integer.parseInt(arr[7]);
-		System.out.println(min + " ---- " + max);
+		//System.out.println(min + " ---- " + max);
 	}
 	
 }
